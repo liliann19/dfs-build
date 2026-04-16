@@ -38,7 +38,24 @@ public class Build {
    * @return the longest reachable word, or an empty string if the vertex is null
    */
   public static String longestWord(Vertex<String> vertex) {
-    return "";
+    return longestWord(vertex, new HashSet<>());
+  }
+
+  private static String longestWord(Vertex<String> vertex, Set<Vertex<String>> seen) {
+    if (vertex == null || seen.contains(vertex)) return "";
+    
+    seen.add(vertex);
+
+    String longest = vertex.data;
+
+    for (Vertex<String> neighbor : vertex.neighbors) {
+      String result = longestWord(neighbor, seen);
+
+      if (result.length() > longest.length()) {
+        longest = result;
+      }
+    }
+    return longest;
   }
 
   /**
